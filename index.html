@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="weather-card">
+        <div id="weatherIcon">
+            🌤️
+        </div>
+        <h1 id="temperature">
+            31°
+        </h1>
+        <h2 id="description">
+            Clear Sky
+        </h2>
+        <p id="cityName">
+            📍 Lucknow
+        </p>
+        <p id="feelsLike">
+            Feels like 34°
+        </p>
+    </div>
+    <div class="search-box">
+        <input
+        type="text"
+        id="cityInput"
+        placeholder="Search any city...">
+        <button id="searchBtn">
+            🔍
+        </button>
+    </div>
+    <div class="details">
+        <div class="detail-box">
+            <h3>💧 Humidity</h3>
+            <p id="humidity">58%</p>
+        </div>
+        <div class="detail-box">
+            <h3>🌬 Wind</h3>
+            <p id="wind">12 km/h</p>
+        </div>
+        <div class="detail-box">
+            <h3>👁 Visibility</h3>
+            <p id="visibility">8 km</p>
+        </div>
+        <div class="detail-box">
+            <h3>🌡 Pressure</h3>
+            <p id="pressure">1008 hPa</p>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
