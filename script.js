@@ -53,4 +53,38 @@ function updateUI(data){
     (data.visibility/1000).toFixed(1) + " km";
     pressure.textContent =
     data.main.pressure + " hPa";
+    changeTheme(data.weather[0].main);
+}
+function changeTheme(weather){
+    weather = weather.toLowerCase();
+    if(weather.includes("clear")){
+        document.body.style.background =
+        "linear-gradient(135deg,#FFD369,#FFF8E7)";
+    }
+    else if(weather.includes("cloud")){
+        document.body.style.background =
+        "linear-gradient(135deg,#9AA5B1,#E5E7EB)";
+    }
+    else if(weather.includes("rain") || weather.includes("drizzle")){
+        document.body.style.background =
+        "linear-gradient(135deg,#4A6FA5,#A7C7E7)";
+    }
+    else if(weather.includes("thunderstorm")){
+        document.body.style.background =
+        "linear-gradient(135deg,#4B5563,#9CA3AF)";
+    }
+    else if(weather.includes("snow")){
+        document.body.style.background =
+        "linear-gradient(135deg,#DDEAF6,#FFFFFF)";
+    }
+    else if(weather.includes("mist") ||
+            weather.includes("fog") ||
+            weather.includes("haze")){
+        document.body.style.background =
+        "linear-gradient(135deg,#B8C0D9,#EEF2F7)";
+    }
+    else{
+        document.body.style.background =
+        "linear-gradient(135deg,#FFD369,#FFF8E7)";
+    }
 }
