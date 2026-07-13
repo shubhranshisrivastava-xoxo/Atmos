@@ -40,27 +40,7 @@ async function getWeather(){
 function updateUI(data){
     const condition = data.weather[0].main;
     const icon = data.weather[0].icon;
-    if (icon.includes("n")) {
-    weatherIcon.textContent = "🌙";
-    }
-    else if (condition === "Clear") {
-    weatherIcon.textContent = "☀️";
-    }
-    else if (condition === "Clouds") {
-    weatherIcon.textContent = "☁️";
-    }
-    else if (condition === "Rain" || condition === "Drizzle") {
-    weatherIcon.textContent = "🌧️";
-    }
-    else if (condition === "Thunderstorm") {
-    weatherIcon.textContent = "⛈️";
-    }
-    else if (condition === "Snow") {
-    weatherIcon.textContent = "❄️";
-    }
-    else {
-    weatherIcon.textContent = "🌫️";
-   }
+    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
     cityName.textContent = "📍 " + data.name;
     temperature.textContent =
     Math.round(data.main.temp) + "°";

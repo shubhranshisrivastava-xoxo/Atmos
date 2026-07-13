@@ -25,7 +25,10 @@ body{
     text-align:center;
 }
 #weatherIcon{
-    font-size:85px;
+     width:120px;
+     height:120px;
+     display:block;
+     margin:0 auto 10px;
 }
 #temperature{
     font-size:80px;
