@@ -37,6 +37,30 @@ async function getWeather(){
         alert("Something went wrong.");
     }
 }
+function getCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+async function showPosition(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const url =
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        updateUI(data);
+    }
+    catch (error) {
+        alert("Unable to fetch location weather.");
+    }
+}
+function showError() {
+    console.log("Location permission denied.");
+}
 function updateUI(data){
     const condition = data.weather[0].main;
     const icon = data.weather[0].icon;
@@ -122,3 +146,4 @@ function changeTheme(weather, icon){
         "linear-gradient(135deg,#FFD369,#FFF8E7)";
     }
 }
+getCurrentLocation();
