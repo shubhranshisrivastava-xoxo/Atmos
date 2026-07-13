@@ -10,7 +10,9 @@ const wind = document.getElementById("wind");
 const visibility = document.getElementById("visibility");
 const pressure = document.getElementById("pressure");
 const API_KEY = "51db450272f796dd25f8803d35c85ecb";
+const locationBtn = document.getElementById("locationBtn");
 searchBtn.addEventListener("click", getWeather);
+locationBtn.addEventListener("click", getCurrentLocation);
 cityInput.addEventListener("keypress", function(event){
     if(event.key==="Enter"){
         getWeather();
@@ -145,5 +147,27 @@ function changeTheme(weather, icon){
         document.body.style.background =
         "linear-gradient(135deg,#FFD369,#FFF8E7)";
     }
+}
+function getCurrentLocation(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+}
+async function showPosition(position){
+    const latitude=position.coords.latitude;
+    const longitude=position.coords.longitude;
+    const url=
+`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
+    try{
+        const response=await fetch(url);
+        const data=await response.json();
+        updateUI(data);
+    }
+    catch{
+        alert("Unable to fetch location weather.");
+    }
+}
+function showError(){
+    alert("Location permission denied.");
 }
 getCurrentLocation();
