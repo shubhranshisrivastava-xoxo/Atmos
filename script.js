@@ -38,6 +38,29 @@ async function getWeather(){
     }
 }
 function updateUI(data){
+    const condition = data.weather[0].main;
+    const icon = data.weather[0].icon;
+    if (icon.includes("n")) {
+    weatherIcon.textContent = "🌙";
+    }
+    else if (condition === "Clear") {
+    weatherIcon.textContent = "☀️";
+    }
+    else if (condition === "Clouds") {
+    weatherIcon.textContent = "☁️";
+    }
+    else if (condition === "Rain" || condition === "Drizzle") {
+    weatherIcon.textContent = "🌧️";
+    }
+    else if (condition === "Thunderstorm") {
+    weatherIcon.textContent = "⛈️";
+    }
+    else if (condition === "Snow") {
+    weatherIcon.textContent = "❄️";
+    }
+    else {
+    weatherIcon.textContent = "🌫️";
+   }
     cityName.textContent = "📍 " + data.name;
     temperature.textContent =
     Math.round(data.main.temp) + "°";
@@ -53,29 +76,60 @@ function updateUI(data){
     (data.visibility/1000).toFixed(1) + " km";
     pressure.textContent =
     data.main.pressure + " hPa";
-    changeTheme(data.weather[0].main);
+    changeTheme(condition, icon);
 }
-function changeTheme(weather){
+function changeTheme(weather, icon){
+    const isNight = icon.includes("n");
     weather = weather.toLowerCase();
-    if(weather.includes("clear")){
+    if(weather==="clear"){
+        if(isNight){
+        document.body.style.background =
+        "linear-gradient(135deg,#0F172A,#312E81)";
+    }
+    else{
         document.body.style.background =
         "linear-gradient(135deg,#FFD369,#FFF8E7)";
+      }
     }
-    else if(weather.includes("cloud")){
+    else if(weather==="clouds"){
+       if(isNight){
         document.body.style.background =
-        "linear-gradient(135deg,#9AA5B1,#E5E7EB)";
+        "linear-gradient(135deg,#334155,#64748B)";
+    }
+    else{
+        document.body.style.background =
+        "linear-gradient(135deg,#A7C7E7,#EAF4FF)";
+      }
     }
     else if(weather.includes("rain") || weather.includes("drizzle")){
+        if(isNight){
+        document.body.style.background =
+        "linear-gradient(135deg,#1E3A5F,#355C7D)";
+    }
+    else{
         document.body.style.background =
         "linear-gradient(135deg,#4A6FA5,#A7C7E7)";
+        }
     }
     else if(weather.includes("thunderstorm")){
+         if(isNight){
+        document.body.style.background =
+        "linear-gradient(135deg,#1F2937,#374151)";
+    }
+    else{
         document.body.style.background =
         "linear-gradient(135deg,#4B5563,#9CA3AF)";
+        }
     }
-    else if(weather.includes("snow")){
+    else if(weather.includes("snow")){  
+    if(isNight){
+        document.body.style.background =
+        "linear-gradient(135deg,#6B7A8F,#CBD5E1)";
+    }
+    else{
         document.body.style.background =
         "linear-gradient(135deg,#DDEAF6,#FFFFFF)";
+        }
     }
     else if(weather.includes("mist") ||
             weather.includes("fog") ||
