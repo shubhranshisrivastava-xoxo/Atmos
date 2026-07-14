@@ -16,18 +16,23 @@
         src=""
         alt="Weather Icon">
         <h1 id="temperature">
-            31°
+            --°
         </h1>
         <h2 id="description">
-            Clear Sky
+            Search any city
         </h2>
         <p id="cityName">
-            📍 Lucknow
+            📍 --
         </p>
         <p id="feelsLike">
-            Feels like 34°
+            Feels like --°
         </p>
     </div>
+    <div id="errorCard" class="hidden">
+    <div class="error-icon">🔍</div>
+    <h2>City not found</h2>
+    <p>Check the spelling and try again.</p>
+</div>
     <div class="search-box">
         <input
         type="text"
@@ -40,22 +45,26 @@
         📍
     </button>
     </div>
+    <div id="recentSection" class="hidden">
+    <h3>Recent Searches</h3>
+    <div id="recentCities"></div>
+</div>
     <div class="details">
         <div class="detail-box">
             <h3>💧 Humidity</h3>
-            <p id="humidity">58%</p>
+            <p id="humidity">--%</p>
         </div>
         <div class="detail-box">
             <h3>🌬 Wind</h3>
-            <p id="wind">12 km/h</p>
+            <p id="wind">-- km/h</p>
         </div>
         <div class="detail-box">
             <h3>👁 Visibility</h3>
-            <p id="visibility">8 km</p>
+            <p id="visibility">-- km</p>
         </div>
         <div class="detail-box">
             <h3>🌡 Pressure</h3>
-            <p id="pressure">1008 hPa</p>
+            <p id="pressure">---- hPa</p>
         </div>
     </div>
 </div>

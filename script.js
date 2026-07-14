@@ -1,5 +1,6 @@
 const cityInput = document.getElementById("cityInput");
 const searchBtn = document.getElementById("searchBtn");
+const locationBtn = document.getElementById("locationBtn");
 const weatherIcon = document.getElementById("weatherIcon");
 const temperature = document.getElementById("temperature");
 const description = document.getElementById("description");
@@ -9,165 +10,172 @@ const humidity = document.getElementById("humidity");
 const wind = document.getElementById("wind");
 const visibility = document.getElementById("visibility");
 const pressure = document.getElementById("pressure");
+const errorCard = document.getElementById("errorCard");
+const recentSection = document.getElementById("recentSection");
+const recentCities = document.getElementById("recentCities");
 const API_KEY = "51db450272f796dd25f8803d35c85ecb";
-const locationBtn = document.getElementById("locationBtn");
-searchBtn.addEventListener("click", getWeather);
+let recentSearches =
+JSON.parse(localStorage.getItem("recentSearches")) || [];
+searchBtn.addEventListener("click", () => {
+    getWeather(cityInput.value.trim());
+});
 locationBtn.addEventListener("click", getCurrentLocation);
-cityInput.addEventListener("keypress", function(event){
-    if(event.key==="Enter"){
-        getWeather();
+cityInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        getWeather(cityInput.value.trim());
     }
 });
-async function getWeather(){
-    const city = cityInput.value.trim();
-    if(city===""){
-        alert("Please enter a city.");
+async function getWeather(city) {
+    if (city === "") {
+        showError("Please enter a city.");
         return;
     }
-    const url =
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
-    try{
-        const response = await fetch(url);
+    try {
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
+        );
         const data = await response.json();
-        if(data.cod!="200"){
-            alert("City not found!");
+        if (data.cod != 200) {
+            showError("City not found.");
             return;
         }
+        hideError();
         updateUI(data);
-    }
-    catch(error){
-        alert("Something went wrong.");
-    }
-}
-function getCurrentLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-async function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const url =
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        updateUI(data);
+        saveRecentSearch(data.name);
     }
     catch (error) {
-        alert("Unable to fetch location weather.");
+        showError("Unable to fetch weather.");
+        console.log(error);
     }
 }
-function showError() {
-    console.log("Location permission denied.");
-}
-function updateUI(data){
-    const condition = data.weather[0].main;
+function updateUI(data) {
+    const weather = data.weather[0].main.toLowerCase();
     const icon = data.weather[0].icon;
-    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
-    cityName.textContent = "📍 " + data.name;
+    weatherIcon.src =
+        `https://openweathermap.org/img/wn/${icon}@4x.png`;
     temperature.textContent =
-    Math.round(data.main.temp) + "°";
+        Math.round(data.main.temp) + "°";
     description.textContent =
-    data.weather[0].description;
+        data.weather[0].description;
+    cityName.textContent =
+        "📍 " + data.name;
     feelsLike.textContent =
-    "Feels like " + Math.round(data.main.feels_like) + "°";
+        "Feels like " +
+        Math.round(data.main.feels_like) +
+        "°";
     humidity.textContent =
-    data.main.humidity + "%";
+        data.main.humidity + "%";
     wind.textContent =
-    data.wind.speed + " km/h";
+        data.wind.speed + " km/h";
     visibility.textContent =
-    (data.visibility/1000).toFixed(1) + " km";
+        (data.visibility / 1000).toFixed(1) + " km";
     pressure.textContent =
-    data.main.pressure + " hPa";
-    changeTheme(condition, icon);
+        data.main.pressure + " hPa";
+    changeTheme(weather, icon);
 }
-function changeTheme(weather, icon){
+function changeTheme(weather, icon) {
     const isNight = icon.includes("n");
-    weather = weather.toLowerCase();
-    if(weather==="clear"){
-        if(isNight){
-        document.body.style.background =
-        "linear-gradient(135deg,#0F172A,#312E81)";
-    }
-    else{
-        document.body.style.background =
-        "linear-gradient(135deg,#FFD369,#FFF8E7)";
-      }
-    }
-    else if(weather==="clouds"){
-       if(isNight){
-        document.body.style.background =
-        "linear-gradient(135deg,#334155,#64748B)";
-    }
-    else{
-        document.body.style.background =
-        "linear-gradient(135deg,#A7C7E7,#EAF4FF)";
-      }
-    }
-    else if(weather.includes("rain") || weather.includes("drizzle")){
-        if(isNight){
-        document.body.style.background =
-        "linear-gradient(135deg,#1E3A5F,#355C7D)";
-    }
-    else{
-        document.body.style.background =
-        "linear-gradient(135deg,#4A6FA5,#A7C7E7)";
+    if (weather === "clear") {
+        if (isNight) {
+            document.body.style.background =
+                "linear-gradient(135deg,#0F172A,#312E81)";
+        } else {
+            document.body.style.background =
+                "linear-gradient(135deg,#FFD369,#FFF8E7)";
         }
     }
-    else if(weather.includes("thunderstorm")){
-         if(isNight){
-        document.body.style.background =
-        "linear-gradient(135deg,#1F2937,#374151)";
-    }
-    else{
-        document.body.style.background =
-        "linear-gradient(135deg,#4B5563,#9CA3AF)";
+    else if (weather === "clouds") {
+        if (isNight) {
+            document.body.style.background =
+                "linear-gradient(135deg,#334155,#64748B)";
+        } else {
+            document.body.style.background =
+                "linear-gradient(135deg,#A7C7E7,#EAF4FF)";
         }
     }
-    else if(weather.includes("snow")){  
-    if(isNight){
-        document.body.style.background =
-        "linear-gradient(135deg,#6B7A8F,#CBD5E1)";
-    }
-    else{
-        document.body.style.background =
-        "linear-gradient(135deg,#DDEAF6,#FFFFFF)";
+    else if (weather.includes("rain") || weather.includes("drizzle")) {
+        if (isNight) {
+            document.body.style.background =
+                "linear-gradient(135deg,#1E3A5F,#355C7D)";
+        } else {
+            document.body.style.background =
+                "linear-gradient(135deg,#4A6FA5,#A7C7E7)";
         }
     }
-    else if(weather.includes("mist") ||
-            weather.includes("fog") ||
-            weather.includes("haze")){
+    else if (weather.includes("thunderstorm")) {
         document.body.style.background =
-        "linear-gradient(135deg,#B8C0D9,#EEF2F7)";
+            "linear-gradient(135deg,#4B5563,#9CA3AF)";
     }
-    else{
+    else if (weather.includes("snow")) {
         document.body.style.background =
-        "linear-gradient(135deg,#FFD369,#FFF8E7)";
+            "linear-gradient(135deg,#DDEAF6,#FFFFFF)";
+    }
+    else {
+        document.body.style.background =
+            "linear-gradient(135deg,#B8C0D9,#EEF2F7)";
     }
 }
-function getCurrentLocation(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(showPosition,showError);
+function saveRecentSearch(city) {
+    recentSearches = recentSearches.filter(c => c !== city);
+    recentSearches.unshift(city);
+    if (recentSearches.length > 5) {
+        recentSearches.pop();
     }
+    localStorage.setItem(
+        "recentSearches",
+        JSON.stringify(recentSearches)
+    );
+    displayRecentSearches();
 }
-async function showPosition(position){
-    const latitude=position.coords.latitude;
-    const longitude=position.coords.longitude;
-    const url=
-`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
-    try{
-        const response=await fetch(url);
-        const data=await response.json();
-        updateUI(data);
+function displayRecentSearches() {
+    recentCities.innerHTML = "";
+    if (recentSearches.length === 0) {
+        recentSection.classList.add("hidden");
+        return;
     }
-    catch{
-        alert("Unable to fetch location weather.");
+    recentSection.classList.remove("hidden");
+    recentSearches.forEach(function (city) {
+        const chip = document.createElement("div");
+        chip.className = "city-chip";
+        chip.textContent = "📍 " + city;
+        chip.addEventListener("click", function () {
+            cityInput.value = city;
+            getWeather(city);
+        });
+        recentCities.appendChild(chip);
+    });
+}
+function showError(message) {
+    errorCard.querySelector("p").textContent = message;
+    errorCard.classList.remove("hidden");
+}
+function hideError() {
+    errorCard.classList.add("hidden");
+}
+function getCurrentLocation() {
+    if (!navigator.geolocation) {
+        return;
     }
+    navigator.geolocation.getCurrentPosition(
+        async function (position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            try {
+                const response = await fetch(
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+                );
+                const data = await response.json();
+                hideError();
+                updateUI(data);
+                saveRecentSearch(data.name);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+        function () {
+            console.log("Location permission denied.");
+        }
+    );
 }
-function showError(){
-    alert("Location permission denied.");
-}
-getCurrentLocation();
+displayRecentSearches();
