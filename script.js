@@ -48,6 +48,26 @@ async function getWeather(city) {
         console.log(error);
     }
 }
+const countryNames = {
+    IN: "India",
+    US: "United States",
+    GB: "United Kingdom",
+    AU: "Australia",
+    CA: "Canada",
+    JP: "Japan",
+    CN: "China",
+    FR: "France",
+    DE: "Germany",
+    IT: "Italy",
+    ES: "Spain",
+    BR: "Brazil",
+    RU: "Russia",
+    KR: "South Korea",
+    PK: "Pakistan",
+    NP: "Nepal",
+    BD: "Bangladesh",
+    LK: "Sri Lanka"
+};
 function updateUI(data) {
     const weather = data.weather[0].main.toLowerCase();
     const icon = data.weather[0].icon;
@@ -57,8 +77,10 @@ function updateUI(data) {
         Math.round(data.main.temp) + "°";
     description.textContent =
         data.weather[0].description;
+    const country =
+    countryNames[data.sys.country] || data.sys.country;
     cityName.textContent =
-        "📍 " + data.name;
+    "📍 " + data.name + " • " + country;
     feelsLike.textContent =
         "Feels like " +
         Math.round(data.main.feels_like) +
