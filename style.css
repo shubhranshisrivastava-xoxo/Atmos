@@ -23,6 +23,7 @@ body{
 }
 .weather-card{
     text-align:center;
+    transition:opacity .4s ease;
 }
 #weatherIcon{
      width:120px;
@@ -170,4 +171,7 @@ body{
     100%{
         transform:rotate(360deg);
     }
+}
+.fade{
+    opacity:0;
 }

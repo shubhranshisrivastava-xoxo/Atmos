@@ -14,8 +14,8 @@ const errorCard = document.getElementById("errorCard");
 const recentSection = document.getElementById("recentSection");
 const recentCities = document.getElementById("recentCities");
 const API_KEY = "51db450272f796dd25f8803d35c85ecb";
-const loadingCard =
-document.getElementById("loadingCard");
+const loadingCard =document.getElementById("loadingCard");
+const weatherCard =document.querySelector(".weather-card");
 let recentSearches =
 JSON.parse(localStorage.getItem("recentSearches")) || [];
 searchBtn.addEventListener("click", () => {
@@ -33,6 +33,7 @@ async function getWeather(city) {
         return;
     }
     try {
+        weatherCard.classList.add("fade");
         loadingCard.classList.remove("hidden");
         errorCard.classList.add("hidden");
         const response = await fetch(
@@ -99,6 +100,7 @@ function updateUI(data) {
     pressure.textContent =
         data.main.pressure + " hPa";
     changeTheme(weather, icon);
+    weatherCard.classList.remove("fade");
 }
 function changeTheme(weather, icon) {
     const isNight = icon.includes("n");
