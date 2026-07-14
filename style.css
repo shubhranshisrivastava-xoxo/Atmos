@@ -148,3 +148,26 @@ body{
     transform:translateY(-2px);
     background:white;
 }
+#loadingCard{
+    text-align:center;
+    margin:25px 0;
+}
+.loader{
+    width:55px;
+    height:55px;
+    margin:auto;
+    border:6px solid rgba(255,255,255,.5);
+    border-top:6px solid white;
+    border-radius:50%;
+    animation:spin .9s linear infinite;
+}
+#loadingCard p{
+    margin-top:15px;
+    font-size:17px;
+    font-weight:500;
+}
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}

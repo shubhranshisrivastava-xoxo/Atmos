@@ -14,6 +14,8 @@ const errorCard = document.getElementById("errorCard");
 const recentSection = document.getElementById("recentSection");
 const recentCities = document.getElementById("recentCities");
 const API_KEY = "51db450272f796dd25f8803d35c85ecb";
+const loadingCard =
+document.getElementById("loadingCard");
 let recentSearches =
 JSON.parse(localStorage.getItem("recentSearches")) || [];
 searchBtn.addEventListener("click", () => {
@@ -31,6 +33,8 @@ async function getWeather(city) {
         return;
     }
     try {
+        loadingCard.classList.remove("hidden");
+        errorCard.classList.add("hidden");
         const response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
         );
@@ -40,12 +44,13 @@ async function getWeather(city) {
             return;
         }
         hideError();
+        loadingCard.classList.add("hidden");
         updateUI(data);
         saveRecentSearch(data.name);
     }
     catch (error) {
-        showError("Unable to fetch weather.");
-        console.log(error);
+        loadingCard.classList.add("hidden");
+        errorCard.classList.remove("hidden");
     }
 }
 const countryNames = {
