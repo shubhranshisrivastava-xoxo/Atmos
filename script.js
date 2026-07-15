@@ -208,3 +208,12 @@ function getCurrentLocation() {
     );
 }
 displayRecentSearches();
+window.addEventListener("load", function(){
+    const splash = document.getElementById("splashScreen");
+    setTimeout(function(){
+        splash.classList.add("hide");
+        setTimeout(function(){
+            splash.remove();
+        },800);
+    },2000);
+});
