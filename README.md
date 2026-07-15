@@ -18,7 +18,7 @@ A modern weather web application that provides real-time weather updates for any
 - OpenWeather API
 
 ## Live Demo
-Coming Soon...
+https://shubhranshisrivastava-xoxo.github.io/Atmos/
 
 ## Developed By
 Shubhranshi Srivastava
