@@ -16,8 +16,8 @@ body{
 .container{
     width:100%;
     max-width:380px;
-    border-radius:35px;
-    padding:28px;
+    border-radius:30px;
+    padding:18px;
     backdrop-filter:blur(25px);
     background:rgba(255,255,255,.25);
     box-shadow:0 20px 45px rgba(0,0,0,.15);
@@ -27,17 +27,17 @@ body{
     transition:opacity .4s ease;
 }
 #weatherIcon{
-     width:120px;
-     height:120px;
+     width:90px;
+     height:90px;
      display:block;
      margin:0 auto 10px;
 }
 #temperature{
-    font-size:80px;
+    font-size:64px;
     font-weight:600;
 }
 #description{
-    font-size:28px;
+    font-size:22px;
     margin-top:8px;
 }
 #cityName{
@@ -54,11 +54,13 @@ body{
 }
 .search-box{
     display:flex;
-    margin:35px 0;
+    width:100%;
     gap:12px;
+    margin:20px 0;
 }
 #cityInput{
     flex:1;
+    min-width:0;
     border:none;
     outline:none;
     padding:16px;
@@ -80,7 +82,7 @@ body{
 }
 .detail-box{
     background:rgba(255,255,255,.45);
-    padding:18px;
+    padding:14px;
     border-radius:22px;
     text-align:center;
 }
@@ -90,7 +92,7 @@ body{
 }
 .detail-box p{
     margin-top:10px;
-    font-size:22px;
+    font-size:18px;
     font-weight:600;
 }
 #locationBtn{
@@ -109,7 +111,7 @@ body{
     display:none;
 }
 #errorCard{
-    margin-bottom:25px 0;
+    margin:20px 0;
     background:rgba(255,255,255,.4);
     border-radius:22px;
     padding:25px;
@@ -139,7 +141,7 @@ body{
     gap:10px;
 }
 .city-chip{
-    padding:8px 16px;
+    padding:6px 12px;
     border-radius:20px;
     background:rgba(255,255,255,.55);
     cursor:pointer;
@@ -191,15 +193,63 @@ body{
     transition:opacity .8s ease;
 }
 #splashScreen img{
-    width:170px;
+    width:135px;
     margin-bottom:20px;
 }
 #splashScreen h1{
-    font-size:58px;
+    font-size:46px;
     letter-spacing:10px;
     color:#1B2A4A;
 }
 #splashScreen.hide{
     opacity:0;
     pointer-events:none;
+}
+@media (max-width:480px){
+.container{
+    padding:16px;
+}
+#weatherIcon{
+    width:85px;
+    height:85px;
+}
+#temperature{
+    font-size:60px;
+}
+#description{
+    font-size:22px;
+}
+#cityName{
+    font-size:17px;
+}
+#feelsLike{
+    padding:7px 16px;
+    font-size:15px;
+}
+.search-box{
+    gap:8px;
+    margin:18px 0;
+}
+#searchBtn,
+#locationBtn{
+    width:50px;
+    font-size:18px;
+}
+#cityInput{
+    padding:14px;
+    font-size:15px;
+}
+.detail-box{
+    padding:14px;
+}
+.detail-box h3{
+    font-size:14px;
+}
+.detail-box p{
+    font-size:18px;
+}
+.city-chip{
+    font-size:13px;
+    padding:6px 12px;
+}
 }
