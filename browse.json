@@ -1,0 +1,14 @@
+{
+  "name": "Atmos",
+  "short_name": "Atmos",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#A7C7E7",
+  "background_color": "#FFFFFF",
+  "display": "standalone"
+}
